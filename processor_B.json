@@ -1,0 +1,68 @@
+{
+  "name": "Processor B",
+  "num_qubits": 9,
+  "topology": "nine-node connected topology interpreted from organiser diagram",
+  "coupling_map": [
+    [
+      0,
+      1
+    ],
+    [
+      0,
+      3
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      2,
+      7
+    ],
+    [
+      2,
+      8
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      4,
+      7
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      6,
+      7
+    ]
+  ],
+  "coupling_bidirectional": true,
+  "basis_gates": [
+    "rz",
+    "sx",
+    "x",
+    "cx"
+  ],
+  "noise": {
+    "single_qubit_depolarizing": 0.001,
+    "two_qubit_depolarizing": 0.01
+  },
+  "source": "Participant-defined model interpreted from organiser slide; synthetic noise; numbering assigned by participant",
+  "assumptions": "All couplings bidirectional; identical uniform gate noise on both processors; no readout error"
+}

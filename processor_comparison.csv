@@ -1,0 +1,3 @@
+processor,physical_qubits,depth,cx_gates,explicit_swaps,total_gates
+A,5,40,16,0,57
+B,9,29,16,0,57
