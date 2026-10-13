@@ -1,1 +1,1 @@
-These tables and figures were generated from the corrected processor configurations in Google Colab. Run main.ipynb from the repository root to regenerate them.
+Run `python run_experiment.py` or open `main.ipynb` and Run all. Real Qiskit transpilation/simulator measurements populate results/tables and results/figures. Do not submit until final outputs are generated and checked.

@@ -1,0 +1,11 @@
+{
+  "instance_nodes": 6,
+  "number_of_edges": 9,
+  "exact_classical_optimum": 16,
+  "ideal_reduced_QAOA_p1_expected_cut_numpy": 11.82289252825161,
+  "ideal_reduced_QAOA_p1_approximation_ratio": 0.7389307830157257,
+  "gamma": 0.2085200777596609,
+  "beta": 0.3774980331727534,
+  "evidence": "independent numpy exact statevector only; no hardware/compiled circuit/shot result was run",
+  "status": "NUMPY_REFERENCE_ONLY"
+}

@@ -1,1 +1,1 @@
-"""QFF PS-O1 reusable utilities."""
+"""QFF Phase 1 PS-O1: weighted Max-Cut and architecture benchmark."""

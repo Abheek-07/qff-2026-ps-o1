@@ -1,0 +1,48 @@
+{
+  "problem_statement": "PS-O1: 6-node weighted Max-Cut",
+  "vertex_zero_fixed": true,
+  "logical_qubits": 5,
+  "classical_optimum": 16,
+  "optimized_angles": {
+    "gamma": 0.20852007515613757,
+    "beta": 0.37749803226985285
+  },
+  "ideal_expected_cut": 11.822892528250959,
+  "statevector_max_probability_disagreement": 6.245004513516506e-17,
+  "transpilation": {
+    "optimization_level": 1,
+    "seed_transpiler": 42,
+    "initial_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "shots": 4096,
+  "baseline_seeds": [
+    43,
+    47,
+    53,
+    59,
+    61
+  ],
+  "noise": {
+    "single_qubit_depolarizing": 0.001,
+    "two_qubit_depolarizing": 0.005,
+    "readout_error": 0.01
+  },
+  "qiskit_version": "2.5.2",
+  "qiskit_aer_version": "0.17.2",
+  "unrestricted_compilation_reference": {
+    "depth": 21,
+    "cx_count": 12,
+    "explicit_swap_count": 0,
+    "single_qubit_gate_count": 46,
+    "total_operations": 63,
+    "compiled_physical_qubits": 5
+  },
+  "caveat": "five logical qubits exactly preserve six-node Max-Cut objective; reduced QAOA ansatz is not same as standard six-qubit ansatz",
+  "run_status": "COMPLETED"
+}

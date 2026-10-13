@@ -1,10 +1,13 @@
-"""Resource counts and sampled objective metrics."""
-from .problem import expected_score, optimum
+"""Native circuit resource counts and sampled/max-cut metrics."""
+from .problem import score_counts
 
-def resources(circuit):
-    ops=circuit.count_ops()
-    return {'depth':int(circuit.depth()),'cx_gates':int(ops.get('cx',0)),'explicit_swaps':int(ops.get('swap',0)),'total_gates':int(sum(ops.values()))}
-
-def summarize_counts(counts):
-    mean=expected_score(counts)
-    return {'mean_cut':mean,'approximation_ratio':mean/optimum()}
+def resources(compiled):
+    operations=compiled.count_ops()
+    return {
+        'depth':int(compiled.depth()),
+        'cx_count':int(operations.get('cx',0)),
+        'explicit_swap_count':int(operations.get('swap',0)),
+        'single_qubit_gate_count':int(sum(operations.get(x,0) for x in ('rz','sx','x'))),
+        'total_operations':int(sum(operations.values())),
+        'compiled_physical_qubits':int(compiled.num_qubits),
+    }

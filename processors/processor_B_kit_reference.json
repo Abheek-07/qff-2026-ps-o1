@@ -1,0 +1,53 @@
+{
+  "name": "Processor B \u2014 consolidated-kit 8-edge reference",
+  "num_qubits": 9,
+  "topology": "9-node 8-edge fixed reference from consolidated Challenge Kit",
+  "coupling_map": [
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      4,
+      7
+    ],
+    [
+      7,
+      8
+    ]
+  ],
+  "coupling_bidirectional": true,
+  "basis_gates": [
+    "rz",
+    "sx",
+    "x",
+    "cx"
+  ],
+  "noise": {
+    "single_qubit_depolarizing": 0.001,
+    "two_qubit_depolarizing": 0.005,
+    "readout_error": 0.01
+  },
+  "noise_status": "provisional; organiser has not finalised",
+  "used_by": "src/full_six_reference.py; NOT the exploratory B run in processor_B.json"
+}

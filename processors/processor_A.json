@@ -1,7 +1,7 @@
 {
   "name": "Processor A",
   "num_qubits": 5,
-  "topology": "five-node branching topology",
+  "topology": "5-node branching tree",
   "coupling_map": [
     [
       0,
@@ -29,8 +29,10 @@
   ],
   "noise": {
     "single_qubit_depolarizing": 0.001,
-    "two_qubit_depolarizing": 0.01
+    "two_qubit_depolarizing": 0.005,
+    "readout_error": 0.01
   },
-  "source": "Participant-defined model interpreted from organiser slide; synthetic noise; numbering assigned by participant",
-  "assumptions": "All couplings bidirectional; identical uniform gate noise on both processors; no readout error"
+  "model_type": "Participant-defined synthetic architecture, not calibrated IBM hardware",
+  "source": "QFF 2026 Phase 1 Master Guide, page 2: participant-defined topology; gate/noise configuration is provisional pending organiser clarification",
+  "design_rationale": "Sparse branching tree with only four links, requiring multi-hop interactions."
 }

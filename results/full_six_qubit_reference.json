@@ -1,0 +1,52 @@
+{
+  "status": "FULL_6Q_EXECUTED",
+  "graph_vertices": 6,
+  "logical_qubits": 6,
+  "optimum": 16,
+  "ideal_expected_cut": 11.978903395413582,
+  "gamma": 6.066423784450378,
+  "beta": 1.225431454735452,
+  "processor_B": {
+    "physical_qubits": 9,
+    "coupling_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        4,
+        7
+      ],
+      [
+        7,
+        8
+      ]
+    ],
+    "native_depth": 57,
+    "native_cx": 27,
+    "noisy_cut": 11.662109375,
+    "approximation_ratio": 0.7288818359375
+  },
+  "shots": 4096,
+  "noise_status": "PROVISIONAL_UNCONFIRMED"
+}
