@@ -72,3 +72,7 @@ AI tools helped write, debug and document the implementation and experimental pr
 ## Exact topology mapping for reviewers
 
 **Two B architectures are intentionally used, not interchangeable:** `processors/processor_B.json` is a participant-designed **12-edge** model used only for the exploratory five-logical-qubit A/B analysis; `processors/processor_B_kit_reference.json` is the consolidated kit’s **8-edge** model used by `src/full_six_reference.py` for the full six-qubit B run. Each experiment has different logical ansatz and angles, so compare only within its own protocol. Full six-qubit Processor A metrics are not fabricated because it has insufficient physical qubits.
+
+## Expanded PS-O1 audit metrics
+
+The revised six-qubit run generates an optimal-bitstring probability (ideal and measured), best cut observed in 4096 shots, raw measurement counts, three independently seeded optimizer searches, unrestricted native routing comparison, and a separate non-native SWAP diagnostic. **These additions have been executed in the validated Colab run and recorded in `results/full_six_qubit_reference.json`. Push the validated project files to GitHub so the public submission includes this evidence.** The report finalizer reads the JSON rather than asserting constant figures.
