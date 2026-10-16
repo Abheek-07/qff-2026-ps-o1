@@ -10,6 +10,18 @@ The benchmark generates `networkx.erdos_renyi_graph(n=6, p=0.5, seed=42)`, then 
 
 We use the objective `C(x) = sum_(u,v) w_uv [x_u != x_v]`. As Max-Cut has global bit-flip symmetry, `C(x)=C(1-x)`, we fix vertex `x_0=0` and encode vertices 1–5 on five logical qubits, allowing deployment on five-qubit Processor A. The reduced objective is **exactly equivalent for finding the classical optimum**. However, a QAOA p=1 variational state on the 5-variable gauge-fixed subspace is **not generally equivalent to a standard six-qubit QAOA ansatz**; the comparison uses the same reduced ansatz on both A and B. Organiser confirmation of this symmetry encoding is recommended because the official guide does not state an encoding prescription.
 
+### Mathematical formulation and QUBO/Hamiltonian
+
+For each graph vertex let `x_i ∈ {0,1}` specify its partition. Each weighted edge contributes `w_ij` exactly when its endpoints differ:
+
+`C(x) = Σ_(i,j) w_ij [x_i ≠ x_j] = Σ_(i,j) w_ij (x_i + x_j - 2 x_i x_j)`.
+
+This is a quadratic unconstrained binary objective (QUBO) to **maximize** (or equivalently minimize `-C`). Using `x_i = (1 - Z_i)/2`, the cost operator is
+
+`C_hat = (1/2) Σ_(i,j) w_ij (I - Z_i Z_j)`.
+
+The QAOA cost evolution `exp(-i γ C_hat)` differs only by a global phase from `RZZ(-γ w_ij)` for each edge. The mixer is `exp(-i β Σ_i X_i)`, implemented as `RX(2β)` per logical qubit. Fixing vertex 0 gives local Z terms on its incident edges, but defines a **different five-qubit QAOA ansatz**, not a physical six-qubit compression preserving the same quantum distribution. The same original weighted objective and classical optimum are used for scoring both encodings.
+
 ## 2. QAOA and reference benchmark
 
 The prepared state is `|+>^5`, with cost unitary `exp(-i * gamma * C)` (up to global phase) and mixer `exp(-i * beta * sum X_i)` for p=1. Edges not incident to vertex 0 use `rzz(-gamma*w)`; edges incident to fixed vertex 0 use `rz(-gamma*w)`. The circuit is built in `src/problem.py`.
@@ -71,10 +83,10 @@ Limitations: six-node-to-five-qubit symmetry fixing is classically exact but cha
 
 | Logical workload | Processor A (5 physical qubits) | Processor B (9 physical qubits) | Valid comparison |
 |---|---|---|---|
-| Original full six-qubit QAOA | **Infeasible:** insufficient physical qubits | **Executed**, kit-reference B topology; native depth **57**, native CX **27**, noisy cut **11.662109** | Full-six B evidence only; **not** an A/B performance comparison |
+| Original full six-qubit QAOA | **Infeasible:** insufficient physical qubits | **Executed**, historical eight-edge B topology; native depth **57**, native CX **27**, noisy cut **11.662109** | Full-six B evidence only; **not** an A/B performance comparison |
 | Symmetry-fixed five-qubit QAOA | **Executed**, native depth **38**, CX **24**, 5-seed noisy mean cut **11.5347** | **Executed**, native depth **24**, CX **15**, 5-seed noisy mean cut **11.5991** | Matched reduced-ansatz A/B comparison on participant-defined topologies |
 
-The full-six B run uses `processors/processor_B_kit_reference.json`, while the exploratory reduced A/B comparison uses `processors/processor_B.json`; the B circuit-resource metrics must not be combined as though they used a single topology. The kit's eight-edge B model and participant-designed 12-edge B model are intentionally distinct and disclosed.
+The full-six B run uses `processors/processor_B_kit_reference.json`, while the exploratory reduced A/B comparison uses `processors/processor_B.json`; the B circuit-resource metrics must not be combined as though they used a single topology. The historical eight-edge B model and participant-designed 12-edge B model are intentionally distinct and disclosed.
 
 ### Proposed Processor D design
 
@@ -82,7 +94,7 @@ The full-six B run uses `processors/processor_B_kit_reference.json`, while the e
 
 **Why this is not a guaranteed speedup.** More couplers mean more complex control, calibration, crosstalk and possibly lower per-link fidelity. Scheduling conflicts, gate synthesis, Qiskit layout choices and measured link errors also influence depth and expected cut. Lower graph distance alone cannot establish a noisy-algorithm advantage, and tailoring D to this single instance may reduce usefulness on other graphs.
 
-**Proposed test methodology (not performed):** use identical six-logical-qubit p=1 QAOA parameters and graph, identical native basis and transpilation optimization level, a documented layout/routing policy, and matched synthetic noise for D and the kit-reference B. Record native depth, CX count, additional CX versus an unrestricted reference, separately labelled SWAP-allowed diagnostic counts, and noisy expected cut across repeat seeds. Run sensitivity analysis if link-specific noise is introduced. Compare like-for-like full-six workloads only. Report uncertainty and distinguish measured observations from hypotheses.
+**Proposed test methodology (not performed):** use identical six-logical-qubit p=1 QAOA parameters and graph, identical native basis and transpilation optimization level, a documented layout/routing policy, and matched synthetic noise for D and the official twelve-edge B reference (if used for future comparisons). Record native depth, CX count, additional CX versus an unrestricted reference, separately labelled SWAP-allowed diagnostic counts, and noisy expected cut across repeat seeds. Run sensitivity analysis if link-specific noise is introduced. Compare like-for-like full-six workloads only. Report uncertainty and distinguish measured observations from hypotheses.
 
 **Phase boundary:** Per the latest Hackathon Cell clarification, Processor D needs a Phase 1 design rationale in `report.md`, not a completed implementation. No Processor D simulation or offline enhanced Phase 2 task is claimed here. Any enhanced Phase 2 challenge must wait until organisers officially begin that phase.
 
@@ -94,7 +106,6 @@ The full-six B run uses `processors/processor_B_kit_reference.json`, while the e
 - Noisy performance and trials: `results/tables/noisy_summary.csv`, `results/tables/noisy_trials.csv`, `results/figures/noisy_cut.png`.
 - Noise sensitivity: `results/tables/noise_sensitivity.csv` and `results/figures/noise_sensitivity.png`.
 - Capacity and differing source guides: `COMPLIANCE_NOTES.md`; precise reproduction protocol in Sections 4 and 8.
-
 ## 8. Reproducibility and AI disclosure
 
 Pinned software in `requirements.txt`; regenerate configs via the two `processor_*.py` scripts and execute `main.ipynb` or `python run_experiment.py`. Assertions check statevector probabilities, reference optimum, device configs, topology reachability, and native basis consistency. Synthetic simulator seeds and benchmark settings are recorded in `results/experiment_metadata.json`.
@@ -103,7 +114,7 @@ AI assistance was used in code development, debugging, documentation, and experi
 
 ## 9. Executed full six-qubit QAOA — Processor B (separate experiment)
 
-Unreduced six-logical-qubit p=1 QAOA uses the original six-vertex graph on nine-physical-qubit Processor B (the eight-edge kit reference topology, not the 12-edge exploratory B topology). Values below are read from `results/full_six_qubit_reference.json` at report generation time, not hard-coded.
+Unreduced six-logical-qubit p=1 QAOA uses the original six-vertex graph on nine-physical-qubit Processor B (the historical eight-edge B topology, not the 12-edge exploratory B topology). Values below are read from `results/full_six_qubit_reference.json` at report generation time, not hard-coded.
 
 | Metric | B |
 |---|---:|
@@ -135,3 +146,17 @@ Unreduced six-logical-qubit p=1 QAOA uses the original six-vertex graph on nine-
 ## 10. Organiser clarifications and reproducibility
 
 The updated Master Guide permits custom A/B coupling maps, while the consolidated Challenge Kit specifies example maps and allows A to be handled as a capacity reference for six-qubit workloads. The organiser subsequently clarified that neither the A-handling method nor the final noise/basis parameters are frozen. These inconsistencies are disclosed rather than silently reconciled. See `COMPLIANCE_NOTES.md`. `main.ipynb` regenerates all experimental results and this report section from the saved JSON.
+
+## 11. Measured architecture sensitivity — full six-qubit QAOA on three Processor B topologies
+
+This supplementary **B-versus-B** experiment uses the same original six-logical-qubit QAOA circuit, fixed optimized angles, p=1, 4096 measurement shots, synthetic noise, and seeded transpilation on three **nine-physical-qubit** architectures. The twelve-edge official topology is the configuration documented in the later QFF processor PDF; the historical eight-edge model is a separately labelled earlier experiment. This is **not** a full-six A/B comparison.
+
+| B topology | Links | Native depth | Native CX | Diagnostic SWAPs | Noisy expected cut | Approx. ratio | Optimal outcomes |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| `official_12edge_B` | 12 | 38 | 21 | 1 | 11.7061 | 73.16% | 556/4096 |
+| `participant_12edge_B` | 12 | 38 | 21 | 1 | 11.6892 | 73.06% | 518/4096 |
+| `historical_8edge_B` | 8 | 57 | 27 | 3 | 11.6621 | 72.89% | 546/4096 |
+
+**Interpretation:** On this instance and selected placement/routing conditions, both twelve-edge graphs compiled to lower depth and CX count than the earlier eight-edge graph. The custom twelve-edge topology **did not outperform** the official twelve-edge reference in these two circuit-cost measures. A single 4096-shot noisy simulation per topology is insufficient to establish statistically significant differences in quality. The native CX basis contains no explicit SWAP instruction; diagnostic SWAP counts come from a separate non-native transpilation.
+
+**Reproducible artifacts:** `results/reference_b_comparison/full_six_b_topology_comparison.csv`, `results/reference_b_comparison/full_six_b_topology_comparison.json`, and three `*_compiled.txt` circuit exports. Recreate with `python scripts/compare_full_six_b_topologies.py`.

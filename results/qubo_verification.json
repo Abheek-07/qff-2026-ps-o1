@@ -1,0 +1,81 @@
+{
+  "problem": "PS-O1 six-vertex weighted Max-Cut",
+  "objective": "maximize x^T Q x",
+  "variable_order": "x0..x5",
+  "linear": [
+    5,
+    4,
+    4,
+    9,
+    11,
+    3
+  ],
+  "quadratic": [
+    {
+      "u": 0,
+      "v": 2,
+      "coefficient": -2
+    },
+    {
+      "u": 0,
+      "v": 3,
+      "coefficient": -2
+    },
+    {
+      "u": 0,
+      "v": 4,
+      "coefficient": -6
+    },
+    {
+      "u": 1,
+      "v": 4,
+      "coefficient": -4
+    },
+    {
+      "u": 1,
+      "v": 5,
+      "coefficient": -4
+    },
+    {
+      "u": 2,
+      "v": 3,
+      "coefficient": -4
+    },
+    {
+      "u": 2,
+      "v": 4,
+      "coefficient": -2
+    },
+    {
+      "u": 3,
+      "v": 4,
+      "coefficient": -10
+    },
+    {
+      "u": 3,
+      "v": 5,
+      "coefficient": -2
+    }
+  ],
+  "tested_assignments": 64,
+  "all_assignments_match_cut_score": true,
+  "classical_optimum": 16,
+  "optimum_bitstrings": [
+    [
+      0,
+      0,
+      1,
+      0,
+      1,
+      1
+    ],
+    [
+      1,
+      1,
+      0,
+      1,
+      0,
+      0
+    ]
+  ]
+}

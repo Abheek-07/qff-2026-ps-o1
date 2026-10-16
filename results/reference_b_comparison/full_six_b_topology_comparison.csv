@@ -1,0 +1,4 @@
+configuration,physical_qubits_available,logical_qubits,coupling_edges,native_depth,native_cx,native_explicit_swaps,diagnostic_swaps,unrestricted_native_cx,extra_cx_vs_unrestricted,shots,best_observed_cut,noisy_expected_cut,approximation_ratio,optimal_shots,optimal_probability
+official_12edge_B,9,6,12,38,21,0,1,18,3,4096,16,11.7060546875,0.73162841796875,556,0.1357421875
+participant_12edge_B,9,6,12,38,21,0,1,18,3,4096,16,11.689208984375,0.7305755615234375,518,0.12646484375
+historical_8edge_B,9,6,8,57,27,0,3,18,9,4096,16,11.662109375,0.7288818359375,546,0.13330078125

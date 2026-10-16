@@ -17,13 +17,48 @@ def main():
         rows += [('SWAP-allowed non-native diagnostic',b['routing_diagnostic_swaps']),('Unrestricted connectivity native CX',b['unrestricted_native_cx']),('Extra native CX relative to unrestricted',b['native_cx']-b['unrestricted_native_cx'])]
     table='\n'.join(f'| {k} | {v} |' for k,v in rows)
     section='\n\n## 9. Executed full six-qubit QAOA — Processor B (separate experiment)\n\n'
-    section+='Unreduced six-logical-qubit p=1 QAOA uses the original six-vertex graph on nine-physical-qubit Processor B (the eight-edge kit reference topology, not the 12-edge exploratory B topology). Values below are read from `results/full_six_qubit_reference.json` at report generation time, not hard-coded.\n\n'
+    section+='Unreduced six-logical-qubit p=1 QAOA uses the original six-vertex graph on nine-physical-qubit Processor B (the historical eight-edge B topology, not the 12-edge exploratory B topology). Values below are read from `results/full_six_qubit_reference.json` at report generation time, not hard-coded.\n\n'
     section+='| Metric | B |\n|---|---:|\n'+table+'\n\n'
     if 'optimizer_restarts' in d:
         section+='### Independent optimizer restarts\n\n| Seed | Ideal expected cut |\n|---|---:|\n'
         section+='\n'.join(f"| {row['seed']} | {row['ideal_expected_cut']:.6f} |" for row in d['optimizer_restarts'])+'\n\n'
     section+='**Interpretation:** These numbers are not an apples-to-apples A/B comparison of the same full six-qubit circuit, since A cannot accommodate it. The separate five-qubit experiment fixes a vertex, preserving the classical optimum but changing the QAOA ansatz. The organiser has explicitly not approved that reduction as an official method. Native CX overhead and non-native SWAP diagnostic are different quantities. The latter is compiler-dependent. All device noise and basis parameters are provisional, not final organiser-approved benchmarks.\n\n'
     section+='## 10. Organiser clarifications and reproducibility\n\nThe updated Master Guide permits custom A/B coupling maps, while the consolidated Challenge Kit specifies example maps and allows A to be handled as a capacity reference for six-qubit workloads. The organiser subsequently clarified that neither the A-handling method nor the final noise/basis parameters are frozen. These inconsistencies are disclosed rather than silently reconciled. See `COMPLIANCE_NOTES.md`. `main.ipynb` regenerates all experimental results and this report section from the saved JSON.\n'
+    # Verified optional full-six B architecture comparison. This is appended after
+    # the generated reference section, so subsequent notebook runs preserve it.
+    comparison_path = root / 'results/reference_b_comparison/full_six_b_topology_comparison.json'
+    if comparison_path.exists():
+        comparison = json.loads(comparison_path.read_text(encoding='utf-8'))
+        if comparison.get('status') == 'MEASURED_AFTER_EXECUTION':
+            cases = comparison['comparisons']
+            expected = ['official_12edge_B', 'participant_12edge_B', 'historical_8edge_B']
+            if all(label in cases for label in expected):
+                section += '\n## 11. Measured architecture sensitivity — full six-qubit QAOA on three Processor B topologies\n\n'
+                section += ('This supplementary **B-versus-B** experiment uses the same original six-logical-qubit '
+                            'QAOA circuit, fixed optimized angles, p=1, 4096 measurement shots, synthetic noise, '
+                            'and seeded transpilation on three **nine-physical-qubit** architectures. The twelve-edge '
+                            'official topology is the configuration documented in the later QFF processor PDF; '
+                            'the historical eight-edge model is a separately labelled earlier experiment. '
+                            'This is **not** a full-six A/B comparison.\n\n')
+                section += '| B topology | Links | Native depth | Native CX | Diagnostic SWAPs | Noisy expected cut | Approx. ratio | Optimal outcomes |\n'
+                section += '|---|---:|---:|---:|---:|---:|---:|---:|\n'
+                for label in expected:
+                    m = cases[label]['metrics']
+                    section += (f"| `{label}` | {m['coupling_edges']} | {m['native_depth']} | "
+                                f"{m['native_cx']} | {m['diagnostic_swaps']} | {m['noisy_expected_cut']:.4f} | "
+                                f"{m['approximation_ratio']:.2%} | {m['optimal_shots']}/{m['shots']} |\n")
+                section += ('\n**Interpretation:** On this instance and selected placement/routing conditions, '
+                            'both twelve-edge graphs compiled to lower depth and CX count than the earlier '
+                            'eight-edge graph. The custom twelve-edge topology **did not outperform** the official '
+                            'twelve-edge reference in these two circuit-cost measures. A single 4096-shot noisy '
+                            'simulation per topology is insufficient to establish statistically significant '
+                            'differences in quality. The native CX basis contains no explicit SWAP instruction; '
+                            'diagnostic SWAP counts come from a separate non-native transpilation.\n\n')
+                section += ('**Reproducible artifacts:** '
+                            '`results/reference_b_comparison/full_six_b_topology_comparison.csv`, '
+                            '`results/reference_b_comparison/full_six_b_topology_comparison.json`, '
+                            'and three `*_compiled.txt` circuit exports. Recreate with '
+                            '`python scripts/compare_full_six_b_topologies.py`.\n')
     target.write_text(original+section)
     print('Report updated from measured full-six-qubit JSON')
 

@@ -20,3 +20,7 @@ The `report.md` and generated `results/` genuinely document a repeated, reproduc
 2. Ask whether **Master Guide custom topology freedom** supersedes the kit's fixed A chain/B sparse graph when evaluating Phase 1 submissions.
 3. Keep provisional noise values prominently labelled as assumptions until the organisers freeze them.
 4. The original full-size six-qubit QAOA has **now been executed on B separately**; see `results/full_six_qubit_reference.json` and report section 9. The earlier reduced A/B data does **not** represent full six-qubit QAOA data, and cross-experiment score comparisons do not isolate topology effects.
+
+## Latest Phase 1 judging clarification (16 October 2026)
+
+The Hackathon Cell Head clarified that **Processor C is not required online**, and that Phase 1 needs an **ideology/design proposal for Processor D in `report.md`**, not Processor D execution. The new judging announcement weights technical correctness 30, A/B benchmarking 25, performance analysis 20, reproducibility 15, and explanation 10, with combined LLM-based (70%) and human (30%) assessment. This latest clarification supersedes earlier kit language suggesting D should be executed during Phase 1. Our Phase 1 Processor D concept is documented in report Section 7. No D benchmarking or enhanced Phase 2 implementation is claimed. The organiser has not explicitly approved the symmetry reduction as the official way to solve the original six-qubit problem on A.

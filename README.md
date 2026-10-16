@@ -26,7 +26,13 @@ The current measured Processor A/B results are **exploratory five-qubit symmetry
 2. Click **Runtime → Run all**. It automatically clones this GitHub repository into Colab if necessary, installs the pinned requirements, and runs **the exploratory reduced A/B comparison plus the full six-qubit Processor B reference**, all benchmark trials, graphs, CSV exports and report generation.
 3. After a successful run, Colab automatically downloads a **validated-results ZIP** containing the updated `report.md`, `results/full_six_qubit_reference.json`, and actual experiment results. Replace the files in the GitHub repository with those from the ZIP; commit and push. **Do not submit the template report / missing benchmark results.**
 
-Alternative: clone the repository, install `pip install -r requirements.txt`, run `python -m unittest discover -s tests -v`, then `python run_experiment.py` from the repository root. Python 3.11–3.12 is recommended.
+Alternative: clone the repository, install `pip install -r requirements.txt`, then run the **complete** Phase 1 workflow with `python validate_and_package.py` from the repository root. This runs tests, the reduced five-qubit A/B experiment, the full six-qubit B reference, and report finalization. If you run only `python run_experiment.py`, you regenerate **only the reduced A/B results**; run `python -m src.full_six_reference` followed by `python -m src.finalize_report` as well to rebuild the six-qubit report. Python 3.11–3.12 is recommended. The Processor D proposal is read from `docs/processor_d_proposal.md` on every run.
+
+## Verified full-six Processor B topology comparison (supplementary)
+
+The final Colab run also compared the **same six-logical-qubit QAOA** across the published official twelve-edge B reference, our participant-designed twelve-edge B, and the previously used eight-edge B graph. This experiment isolates topology differences and **does not replace** the matched five-logical-qubit A/B comparison. The official and custom twelve-edge topologies both compiled to depth **38**, **21 CX** gates; the historical eight-edge model compiled to depth **57**, **27 CX** gates. No superiority claim is made from the small noisy-quality differences of single 4096-shot runs.
+
+Measured CSV and full shot distributions: [`results/reference_b_comparison/`](results/reference_b_comparison/). Detailed interpretation: [`report.md`](report.md), Section 11. Run `python scripts/compare_full_six_b_topologies.py` to regenerate these artifacts.
 
 ## Provisional experiment settings (not organiser-frozen)
 
@@ -61,6 +67,14 @@ The synthetic uniformly noisy `rz` gate is a documented modelling assumption for
 - `report.md` — methods and **measured** conclusions generated after benchmark run.
 - `tests/test_basics.py` — tests runnable without Qiskit for core combinatorial and processor configuration assertions.
 
+## Phase 1 Processor D design (proposal, not a benchmark)
+
+Section 7 of [`report.md`](report.md) proposes **six physical qubits with nine links matching the graph's cost interactions**, addressing A's insufficient capacity and possible routing overhead. This is **a hypothesis**, not a measured result or early implementation of the enhanced Phase 2 challenge. The proposal is stored in [`docs/processor_d_proposal.md`](docs/processor_d_proposal.md) to survive notebook/report regeneration.
+
+## Mathematical QUBO and circuit model
+
+For binary partition labels `x_i`, our weighted Max-Cut objective is `C(x)=Σ w_ij(x_i+x_j-2x_ix_j)`. Its quantum cost Hamiltonian is `C_hat=1/2 Σ w_ij(I-Z_i Z_j)`. QAOA uses `RZZ(-γw_ij)` per edge, followed by `RX(2β)` on each logical qubit. The five-qubit variant fixes vertex 0 but is **not** the same quantum ansatz as the unreduced six-qubit reference. See report Section 1 and `src/problem.py` / `src/full_six_reference.py`.
+
 ## Routing and evaluation caveat
 
 The hardware-native target gate set has **no `swap` gate**. A compiled native circuit can consequently have zero *explicit* SWAPs even after physical routing. We therefore report native CX/depth differences, an unrestricted-connectivity compilation reference, **initial-layout shortest-path hop pressure** (a graph-theoretic proxy, not observed SWAP operations), and a separate **non-native SWAP-allowed routing diagnostic**; we never equate these distinct quantities. Results can depend on layout and compiler behavior. The report includes statistical uncertainty and does not infer a hardware advantage from small simulator differences.
@@ -71,7 +85,7 @@ AI tools helped write, debug and document the implementation and experimental pr
 
 ## Exact topology mapping for reviewers
 
-**Two B architectures are intentionally used, not interchangeable:** `processors/processor_B.json` is a participant-designed **12-edge** model used only for the exploratory five-logical-qubit A/B analysis; `processors/processor_B_kit_reference.json` is the consolidated kit’s **8-edge** model used by `src/full_six_reference.py` for the full six-qubit B run. Each experiment has different logical ansatz and angles, so compare only within its own protocol. Full six-qubit Processor A metrics are not fabricated because it has insufficient physical qubits.
+**Two B architectures are intentionally used, not interchangeable:** `processors/processor_B.json` is a participant-designed **12-edge** model used only for the exploratory five-logical-qubit A/B analysis; `processors/processor_B_kit_reference.json` is the historical **8-edge** model used by `src/full_six_reference.py` for the full six-qubit B run. Each experiment has different logical ansatz and angles, so compare only within its own protocol. Full six-qubit Processor A metrics are not fabricated because it has insufficient physical qubits.
 
 ## Expanded PS-O1 audit metrics
 
