@@ -1,0 +1,12 @@
+source,target,conflict_strength_1_to_5,source_priority,target_priority,weight,synthetic_only
+S0,S1,5,3,2,25,YES
+S0,S4,4,3,3,24,YES
+S0,S5,3,3,1,12,YES
+S1,S2,5,2,3,25,YES
+S1,S4,2,2,3,10,YES
+S1,S5,2,2,1,6,YES
+S2,S3,4,3,2,20,YES
+S2,S4,3,3,3,18,YES
+S3,S4,5,2,3,25,YES
+S3,S5,2,2,1,6,YES
+S4,S5,4,3,1,16,YES

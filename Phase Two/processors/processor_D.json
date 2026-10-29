@@ -1,0 +1,53 @@
+{
+  "name": "Processor D",
+  "team": "HACKSMITHS",
+  "problem_statement": "PS-O1",
+  "num_qubits": 6,
+  "edges": [
+    [
+      0,
+      2
+    ],
+    [
+      0,
+      3
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      3,
+      5
+    ]
+  ],
+  "basis_gates": [
+    "rz",
+    "sx",
+    "x",
+    "cx"
+  ],
+  "noise": {
+    "model": "official",
+    "p1": 0.001,
+    "p2": 0.005,
+    "p_readout": 0.01
+  },
+  "design_rationale": "Weight-aware six-qubit coupling graph preserving direct connectivity for the eight highest-weight PS-O1 interactions; omits weight-1 edge (2,4) to respect degree <= 4. Performance advantage is a hypothesis pending official Qiskit benchmarks."
+}

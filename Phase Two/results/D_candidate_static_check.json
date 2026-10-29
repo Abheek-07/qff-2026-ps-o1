@@ -1,0 +1,35 @@
+{
+  "status": "architecture_validated_with_independent_graph_checks_ONLY_QISKIT_BENCHMARK_PENDING",
+  "D_degrees": [
+    3,
+    2,
+    2,
+    4,
+    3,
+    2
+  ],
+  "D": {
+    "direct_weight": 26,
+    "weighted_distance": 28,
+    "direct_interactions": 8
+  },
+  "B_best_static_mapping": [
+    2,
+    0,
+    5,
+    6,
+    1,
+    8
+  ],
+  "B_best_static_score": {
+    "direct_weight": 26,
+    "weighted_distance": 28,
+    "direct_interactions": 8
+  },
+  "maxcut": 22,
+  "optimal": [
+    "001011",
+    "110100"
+  ],
+  "scope": "Static graph-distance heuristic, NOT actual transpiler mapping, CX count, runtime or noisy accuracy."
+}
