@@ -1,0 +1,4 @@
+method,cut_weight,same_channel_conflict,evaluation_note
+exhaustive_optimum,140,47,64 exact assignments; measured runtime in results.json
+uniform_random_exact_expectation,93.5,93.5,expectation over all 64 assignments
+random_sample_1000_seed_2026,92.683,94.317,sample mean; random with replacement

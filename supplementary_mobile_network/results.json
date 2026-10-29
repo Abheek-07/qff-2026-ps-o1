@@ -1,0 +1,24 @@
+{
+  "dataset": "SYNTHETIC SUPPLEMENTARY ONLY - NOT OFFICIAL PS-O1",
+  "num_sectors": 6,
+  "num_edges": 11,
+  "assignments_evaluated": 64,
+  "total_weight": 187,
+  "optimal_cut_weight": 140,
+  "optimal_same_channel_conflict": 47,
+  "optimal_assignments_count": 2,
+  "optimal_assignments": [
+    "010110",
+    "101001"
+  ],
+  "chosen_assignment": "010110",
+  "runtime_exhaustive_search_ns": 191356,
+  "runtime_exhaustive_search_ms": 0.191356,
+  "random_baseline_seed": 2026,
+  "random_baseline_draws": 1000,
+  "random_baseline_sample_mean_cut": 92.683,
+  "random_baseline_sample_std_cut": 31.83199313248837,
+  "uniform_random_exact_mean_cut": 93.5,
+  "improvement_vs_sample_random_cut": 47.31699999999999,
+  "optimality_fraction": 0.7486631016042781
+}
