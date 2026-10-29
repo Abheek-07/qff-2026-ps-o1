@@ -4,7 +4,7 @@
 
 ## Reproduce on a Qiskit-enabled computer
 
-Use Python 3.10–3.12 and open a terminal **inside `Phase Two`**:
+Use Python 3.10–3.12 and open a terminal **at the repository root** (the directory containing `main.ipynb`):
 
 ```powershell
 python -m pip install -r requirements.txt
@@ -24,8 +24,8 @@ python check_outputs.py
 python verify_release_evidence.py
 ```
 
-Data sources: `results/tables/results.csv`, `resources.csv`, `qaoa_five_starts.csv`, `sampled_details.json`, `bell.csv`. `report.md` explains the recorded run, including the Qiskit reversed bit-count display convention and its limits. **All numbers presently in CSVs came from a separate laptop run; this release candidate has not been fully rerun here because Qiskit Aer is unavailable.** No physical hardware runs or quantum advantage claimed. The five ideal optimiser initialisations are **not** repeated independent noisy sampling runs; do not mislabel spread.
+Data sources: `results/tables/results.csv`, `resources.csv`, `qaoa_five_starts.csv`, `sampled_details.json`, `bell.csv`. `report.md` explains the recorded run, including the Qiskit reversed bit-count display convention and its limits. **All numbers presently in CSVs came from a separate laptop run; the complete source-to-results run has not been independently reproduced in a fresh Qiskit environment.** No physical hardware runs or quantum advantage claimed. The five ideal optimiser initialisations are **not** repeated independent noisy sampling runs; do not mislabel spread.
 
 ## GitHub and submission
 
-Add this folder next to the existing **`Phase One`**, without overwriting it. Root README should link to `Phase Two/README.md`. Do not push until reviewed. Verify the official deadline and that the submitted repository URL points to the right commit. The included output files document the previously recorded run and are not a substitute for a clean notebook rerun. `processor_D.json` remains the team's candidate until formally signed off.
+The organisers require Phase 2 code and results **at the repository root**, with prior work archived in **`Phase One/`**. This branch follows that layout. Review the draft pull request before merging into `main`. Verify the official deadline and that the submitted repository URL points to the right commit. The included output files document the previously recorded run and are not a substitute for a clean notebook rerun. `processor_D.json` remains the team's candidate until formally signed off.
